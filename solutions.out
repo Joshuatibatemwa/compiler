@@ -1,0 +1,27 @@
+_______First Test_____
+Usage: my-project [flags] [args] 
+ Available flags:
+  -length Prints length of all arguments
+  -help  Display this list of options
+  --help  Display this list of options
+_______Second Test_____
+One
+for
+each
+line
+in
+terminal
+_______Third Test_____
+3 
+4 
+3 
+4 
+2 
+5 
+5 
+_______Fourth Test_____
+I
+get
+nothing
+from
+this
