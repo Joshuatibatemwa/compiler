@@ -11,7 +11,7 @@ FLAGS =
 all: cli
 
 cli: cli.ml
-	$(CC) -o cli cli.ml
+	$(CC) -o cli CLI.ml
 
 
 clean:
