@@ -10,7 +10,7 @@ FLAGS =
 
 all: cli
 
-cli: cli.ml
+cli: CLI.ml
 	$(CC) -o cli CLI.ml
 
 
