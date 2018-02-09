@@ -82,7 +82,7 @@ let lex (src:char Stream.t) : token list =
       | ')' -> advance src |> ignore; TRParen :: go ()
       | '+' -> advance src |> ignore; Operation TPlus :: go ()
       | '-' -> advance src |> ignore; Operation TMinus :: go ()
-      | '*' -> advance src |> ignore; Operation TMultiply :: go ()                        
+      | '*' -> advance src |> ignore; Operation TMultiply :: go ()                    | '/' -> advance src |> ignore; Operation TDivide :: go () 
       | _   ->
         if is_whitespace ch then
           begin advance src |> ignore; go () end
