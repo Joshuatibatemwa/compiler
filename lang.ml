@@ -3,6 +3,8 @@ type exp =
 | EAdd of exp * exp
 | ESubtract of exp *exp
 | EMultiplication of exp*exp
+| EDivision of exp*exp
+| EModulus of exp*exp
 
 
 let rec interpret (e:exp) : int =
@@ -11,4 +13,6 @@ let rec interpret (e:exp) : int =
   | EAdd (e1, e2)            -> interpret e1 + interpret e2
   | ESubtract (e1, e2)       -> interpret e1 -interpret e2
   | EMultiplication (e1, e2) -> interpret e1 *interpret e2
-  
+  | EModulus (e1,e2)         -> interpret e1 mod interpret e2
+  | EDivision (e1,e2)        -> interpret e1 / interpret e2
+     

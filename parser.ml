@@ -26,6 +26,8 @@ let rec parse (toks:token list) : (exp * token list) =
         |Operation TPlus    ->  oper:= TPlus;    consume (Operation TPlus) toks
         |Operation TMinus   ->  oper:= TMinus;   consume (Operation TMinus)toks
         |Operation TMultiply->  oper:= TMultiply; consume (Operation TMultiply) toks
+        |Operation TDivide  ->  oper:= TDivide; consume (Operation TDivide) toks
+        |Operation TMod     ->  oper:= TMod;    consume(Operation TMod) toks
         |_                  -> failwith "Unknown or unexpected operation"
  
     in
@@ -37,7 +39,8 @@ let rec parse (toks:token list) : (exp * token list) =
         | TPlus     -> (EAdd (e1, e2), toks)
         | TMinus    -> (ESubtract (e1, e2), toks)
         | TMultiply -> (EMultiplication (e1, e2), toks)
-       
+        | TDivide   -> (EDivision (e1,e2), toks)
+        | TMod      -> (EModulus (e1,e2), toks)
           
       end
     | t      -> failwith (Printf.sprintf "Unexpected token found: %s" (string_of_token t))

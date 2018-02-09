@@ -3,6 +3,7 @@ type opt =
   | TMinus
   | TMultiply
   | TDivide
+  | TMod
 
 type token =
   | TInt of int
@@ -15,12 +16,16 @@ let string_of_operation (t:opt) : string =
   | TPlus     -> "+"
   | TMinus    -> "-"
   | TMultiply -> "*"
+  | TDivide   -> "/"
+  | TMod      -> "%"
 
 let operation_of_ch (t:char) : opt =
   match t with
   | '+' -> TPlus
   | '-' -> TMinus
   | '*' -> TMultiply
+  | '/' -> TDivide
+  | '%' -> TMod
   | _   -> failwith "Unexpected Operation"
 
 
