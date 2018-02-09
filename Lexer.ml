@@ -1,15 +1,34 @@
-type token=
-  |TLparen
-  |TRparen
-  |TPlus
-  |TInt of int
+type opt =
+  | TPlus
+  | TMinus
+  | TMultiply
+  | TDivide
+
+type token =
+  | TInt of int
+  | TLParen
+  | TRParen
+  | Operation of opt
+
+let string_of_operation (t:opt) : string =
+  match t with
+  | TPlus     -> "+"
+  | TMinus    -> "-"
+  | TMultiply -> "*"
+
+let operation_of_ch (t:char) : opt =
+  match t with
+  | '+' -> TPlus
+  | '-' -> TMinus
+  | '*' -> TMultiply
+  | _   -> failwith "Unexpected Operation"
 
 
 let string_of_token (t:token) :string=
   match t with
-  |TRparen->")"
-  |TLparen->"("
-  |TPlus->"+"
+  |TRParen->")"
+  |TLParen->"("
+  |Operation t-> string_of_operation t
   |TInt n -> string_of_int n
        
 let string_of_token_list (toks:token list) :string=
@@ -54,9 +73,11 @@ let lex (src:char Stream.t) : token list =
        * side.  ignore has type 'a -> unit---it allows us to throw
        * away the return type of a function we don't care about *)
       match ch with
-      | '(' -> advance src |> ignore; TLparen :: go ()
-      | ')' -> advance src |> ignore; TRparen :: go ()
-      | '+' -> advance src |> ignore; TPlus :: go ()
+      | '(' -> advance src |> ignore; TLParen :: go ()
+      | ')' -> advance src |> ignore; TRParen :: go ()
+      | '+' -> advance src |> ignore; Operation TPlus :: go ()
+      | '-' -> advance src |> ignore; Operation TMinus :: go ()
+      | '*' -> advance src |> ignore; Operation TMultiply :: go ()                        
       | _   ->
         if is_whitespace ch then
           begin advance src |> ignore; go () end

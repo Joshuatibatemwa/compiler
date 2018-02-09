@@ -19,12 +19,25 @@ let rec parse (toks:token list) : (exp * token list) =
   else
     match peek toks with
     | TInt n  -> (EInt n, advance toks)
-    | TLparen -> begin
-        let toks       = consume TLparen toks in
-        let toks       = consume TPlus toks in
+    | TLParen -> begin
+        let oper =ref TMinus in
+        let toks       = consume TLParen toks in
+        let toks       = match peek toks with
+        |Operation TPlus    ->  oper:= TPlus;    consume (Operation TPlus) toks
+        |Operation TMinus   ->  oper:= TMinus;   consume (Operation TMinus)toks
+        |Operation TMultiply->  oper:= TMultiply; consume (Operation TMultiply) toks
+        |_                  -> failwith "Unknown or unexpected operation"
+ 
+    in
+          
         let (e1, toks) = parse toks in
         let (e2, toks) = parse toks in
-        let toks       = consume TRparen toks in
-        (EAdd (e1, e2), toks)
+        let toks       = consume TRParen toks in
+        match oper.contents with
+        | TPlus     -> (EAdd (e1, e2), toks)
+        | TMinus    -> (ESubtract (e1, e2), toks)
+        | TMultiply -> (EMultiplication (e1, e2), toks)
+       
+          
       end
     | t      -> failwith (Printf.sprintf "Unexpected token found: %s" (string_of_token t))

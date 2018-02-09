@@ -9,7 +9,7 @@ let string_of_token (t:token) :string=
   match t with
   |TRparen->")"
   |TLparen->"("
-  |Tplus->"+"
+  |TPlus->"+"
   |TInt n -> string_of_int n
        
 let string_of_token_list (toks:token list) :string=
@@ -54,8 +54,8 @@ let lex (src:char Stream.t) : token list =
        * side.  ignore has type 'a -> unit---it allows us to throw
        * away the return type of a function we don't care about *)
       match ch with
-      | '(' -> advance src |> ignore; TLParen :: go ()
-      | ')' -> advance src |> ignore; TRParen :: go ()
+      | '(' -> advance src |> ignore; TLparen :: go ()
+      | ')' -> advance src |> ignore; TRparen :: go ()
       | '+' -> advance src |> ignore; TPlus :: go ()
       | _   ->
         if is_whitespace ch then
