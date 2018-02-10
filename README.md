@@ -21,3 +21,17 @@ Type ./cli  [arguments] in terminal and run. To run with supported flags type ./
 
 ## Hooks
 Hooks can be installed to keep commits clean and correct. To install hooks run the ./makehook.sh command in the githooks directory.
+
+# Change Log  
+*Assignment 1*  
+**Added**  
+ cli source code  
+ Tests for cli   
+ Makefile  
+
+**Changed**  
+Nothing  
+
+**Known Bugs**  
+None  
+
