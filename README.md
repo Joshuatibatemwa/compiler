@@ -24,6 +24,7 @@ Hooks can be installed to keep commits clean and correct. To install hooks run t
 
 # Change Log  
 *Assignment 1*  
+
 **Added**  
  cli source code  
  Tests for cli   
