@@ -24,7 +24,7 @@ Type ./cli  [arguments] in terminal and run. To run with supported flags type ./
 ## Hooks
 Hooks can be installed to keep commits clean and correct. To install hooks run the ./makehook.sh command in the githooks directory.
 
-##Compiler
+## Compiler
 Compiler is an executable program that can be used to simplify arithmetic
 and logical expressions. The supported language syntax is defined in the
 file Lang.ml in the form
@@ -47,12 +47,13 @@ Nothing  
 **Known Bugs**  
 None  
 
-# Change Log  
 *Assignment 2*  
 
 **Added**  
- compiler source code for arithmetic expressions  
- Test file for arithmetic operations   
+ compiler source code for arithmetic expressions
+  
+ Test file for arithmetic operations
+   
 Lang.ml: The grammar file describing the sytax of the language supported by the compiler 
 
 **Changed**  
