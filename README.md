@@ -1,5 +1,5 @@
 # A Simple OCaml Compiler
-# JOSHUA EKIRIKUBINZA-TIBATEMWA
+ by Joshua Ekirikubinza-Tibatemwa
 As simple OCaml compiler that translates OCaml code into machine language
 #i.e an executable program.  Currently supports simple arithmetic and
 #logical expressions
@@ -8,8 +8,11 @@ As simple OCaml compiler that translates OCaml code into machine language
 ## CLI
 CLI is an executable program that takes arguments and prints them out in order,one per line. 
 Additionally CLI suports the following flags:
--length -- prints out the lengths of the arguments instead of the arguments themselves.
+-length -- prints out the lengths of the arguments instead of the arguments
+themselves.
+
 -help -- prints out a usage message for cli.
+
 --help -- prints out a usage message for cli.
 
 ## Compiler
