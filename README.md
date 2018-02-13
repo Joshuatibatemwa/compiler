@@ -46,7 +46,7 @@ Hooks can be installed to keep commits clean and correct. To install hooks run t
 
 
 # Change Log  
-*Assignment 1*  
+* Assignment 1 *  
 
 **Added**
 
@@ -64,7 +64,7 @@ Nothing
 
 None 
 
-*Assignment 2*  
+* Assignment 2 *  
 
 **Added**
 
