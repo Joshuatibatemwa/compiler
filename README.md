@@ -8,6 +8,7 @@ As simple OCaml compiler that translates OCaml code into machine language
 ## CLI
 CLI is an executable program that takes arguments and prints them out in order,one per line. 
 Additionally CLI suports the following flags:
+
 -length -- prints out the lengths of the arguments instead of the arguments
 themselves.
 
@@ -35,6 +36,7 @@ The same is true for Compiler
 Type ./cli  [arguments] in terminal and run. To run with supported flags
 type ./cli [flags] [argumentss].  To the test suite, type "command make
 test" into the terminal
+
 Type ./compiler [arguements] in terminal to run this program. The arguement
 given is a file containing expressions to be evaluated
 
@@ -60,15 +62,16 @@ None  
 *Assignment 2*  
 
 **Added**  
- compiler source code for arithmetic expressions
-  
- Test file for arithmetic operations
-   
+compiler source code for arithmetic expressions
+ 
+Test file for arithmetic operations
+ 
 Lang.ml: The grammar file describing the sytax of the language supported by the compiler 
 
 **Changed**  
-parser.ml:Added suport for arithmetic and logical expressions  
-Lexer.ml :Added support for arithmetic expressions 
+parser.ml:Added suport for arithmetic and logical expressions
+
+Lexer.ml :Added support for arithmetic expressions
 
 
 
