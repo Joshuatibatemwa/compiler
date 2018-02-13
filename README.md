@@ -49,32 +49,40 @@ Hooks can be installed to keep commits clean and correct. To install hooks run t
 *Assignment 1*  
 
 **Added**
- cli source code 
- Tests for cli  
+
+ cli source code
+ 
+ Tests for cli
+ 
  Makefile 
 
-**Changed** 
+**Changed**
+
 Nothing 
 
-**Known Bugs** 
+**Known Bugs**
+
 None 
 
 *Assignment 2*  
 
-**Added** 
+**Added**
+
 compiler source code for arithmetic expressions
  
 Test file for arithmetic operations
  
 Lang.ml: The grammar file describing the sytax of the language supported by the compiler 
 
-**Changed** 
+**Changed**
+
 parser.ml:Added suport for arithmetic and logical expressions
 
 Lexer.ml :Added support for arithmetic expressions
 
 
 
-**Known Bugs** 
+**Known Bugs**
+
 None  
 
