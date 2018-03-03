@@ -28,5 +28,10 @@ and ineq_interpret (e:exp): bool=
   | EInequality (e1,e2)      -> interpret e1 <= interpret e2
   | EBoolean n                  -> n
   |_                         -> failwith "Unsupported operation")
-        
-   
+
+
+let evaluate(e:exp)=
+  match e with
+  |EInequality (e1,e2)   -> ineq_interpret e |> string_of_bool  |> print_endline
+  |EBoolean b            -> ineq_interpret e |> string_of_bool  |> print_endline    
+  |_                     -> interpret e      |> string_of_int   |> print_endline

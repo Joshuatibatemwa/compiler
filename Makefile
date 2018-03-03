@@ -1,26 +1,30 @@
-# Compiler:
-CC = ocamlopt
+OCBFLAGS :=
+OCB := ocamlbuild $(OCBFLAGS)
 
+.PHONY: all debug clean top
 
-#Tests
-TEST = ./Testing.sh
+all: compiler.native
+debug: all compiler.cma
 
-# Compilation Flags:
-FLAGS =
+%.cma: .FORCE
+	$(OCB) $@
 
-all: cli compiler
+%.cmxa: .FORCE
+	$(OCB) $@
 
-cli: CLI.ml
-	$(CC) -o cli CLI.ml
+%.native: .FORCE
+	$(OCB) $@
 
-compiler:compiler.ml
-	$(CC) -c Lexer.ml
-	$(CC) -c lang.ml
-	$(CC) -c parser.ml
-	$(CC) -c compiler.ml
-	$(CC) -o compiler Lexer.cmx lang.cmx parser.cmx compiler.cmx
+%.p.native: .FORCE
+	$(OCB) $@
+
+%.byte: .FORCE
+	$(OCB) $@
+
+.FORCE:
+
 clean:
-	rm -f cli *.cmi *.cmo results.out a.outv*.cmx *.o compiler
+	$(OCB) -clean
 
-test: cli
-			 $(TEST)
+top: compiler.cma
+	utop
