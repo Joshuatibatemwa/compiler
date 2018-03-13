@@ -21,7 +21,7 @@ Compiler is an executable program that can be used to simplify arithmetic
 and logical expressions. The supported language syntax is defined in the
 file Lang.ml in the form
 
-e ::= n | (e1 + e2) | (e1 - e2) | (e1 * e2) | (e1 / e2)
+e ::= n | (e1 + e2) | (e1 - e2) | (e1 * e2) | (e1 / e2) |(e1 mod e2)
     | true | false | (e1 <= e2) | (if e1 then e2 else e3)
 
 

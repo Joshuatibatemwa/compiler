@@ -18,6 +18,7 @@ let string_of_token (t:token) : string =
   | INEQ      ->"<="
   | COND      ->"if"
   | THEN      ->"then"
+  | MOD       -> "mod"
   | ELSE      -> "else"
   | BOOLEAN b -> string_of_bool b
   | _         -> failwith ("unexpected token")
@@ -32,8 +33,9 @@ let rec string_of_exp (e:exp)=
   | ESubtract (e1, e2)       -> Printf.printf "( "; string_of_exp e1;Printf.printf("-");string_of_exp e2; Printf.printf(")")
   | EMultiplication (e1, e2) -> Printf.printf "("; string_of_exp e1; Printf.printf("*") ;string_of_exp e2; Printf.printf(")")
   | EDivision (e1, e2)       -> Printf.printf "("; string_of_exp e1; Printf.printf("/") ;string_of_exp e2; Printf.printf(")")
-  | EConditional (e1, e2, e3)  -> Printf.printf "(if "; string_of_exp e1; Printf.printf("then") ; string_of_exp e2; Printf.printf("else");string_of_exp e3; Printf.printf(")")
-  | EInequality (e1, e2)            -> Printf.printf "("; string_of_exp e1;Printf.printf("<=") ;string_of_exp e2; Printf.printf(")")
+  | EConditional (e1, e2, e3)-> Printf.printf "(if "; string_of_exp e1; Printf.printf("then") ; string_of_exp e2; Printf.printf("else");string_of_exp e3; Printf.printf(")")
+  | EInequality (e1, e2)     -> Printf.printf "("; string_of_exp e1;Printf.printf("<=") ;string_of_exp e2; Printf.printf(")")
+  | EModulus (e1,e2)         -> Printf.printf "("; string_of_exp e1;Printf.printf("mod") ;string_of_exp e2; Printf.printf(")")
   | EBoolean b               -> Printf.printf "%s " (string_of_bool b)
 
 let start_up(f:string) =
