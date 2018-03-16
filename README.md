@@ -21,8 +21,9 @@ Compiler is an executable program that can be used to simplify arithmetic
 and logical expressions. The supported language syntax is defined as
 
 
-e ::= n |true | false |(e)| e1 + e2 | e1 - e2 | e1 * e2 | e1 / e2 |e1 mod e2|e1 == e2
-    | e1 <= e2 | if e1 then e2 else e3|(un x -> e| fix f x -> (e) |e1 (e2)
+e ::= n |true | false |(e)| e1 + e2 | e1 - e2 | e1 * e2 | e1 / e2 |e1 mod e2
+     |e1 == e2| e1 <= e2 | if e1 then e2 else e3|(un x -> e| fix f x -> (e)
+     |e1 (e2) | (e1,e2)  |fst e | snd e
 
 It supports the following flags:
 
@@ -120,14 +121,35 @@ None  
 *Assignment 4*
 
 **Added**  
-* source code to support let-binds
-* source code to support functions
-* source code to support variables
-* source code to support recursion
-* source code for small step semantics
+*Parser.mly, Lexer.mll, compiler.ml
+let-binds code 
+functions code  
+variables  
+recursion code 
+small step semantics code
+
 
 **Changed**  
 * Tests for compiler
 
 **Known Bugs**  
 None
+
+
+*Assignment 5*
+
+**Added**
+*Parser.mly, Lexer.mll, compiler.ml
+types and type-checking   
+The value unit  
+support for  pairs  
+
+
+ 
+ **Changed**  
+ *Lang.ml  
+ Language syntax  
+ *All tests
+ 
+ **Known Bugs**  
+ None  

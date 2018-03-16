@@ -38,3 +38,11 @@ echo "===== test19 ====="
 ./compiler.native -parse test/test4.txt
 echo "===== test20 ====="
 ./compiler.native -step test/test4.txt
+echo "===== test21 ====="
+./compiler.native  test/test5.txt
+echo "===== test22 ====="
+./compiler.native -lex test/test5.txt
+echo "===== test23 ====="
+./compiler.native -parse test/test5.txt
+echo "===== test24 ====="
+./compiler.native -step test/test5.txt
