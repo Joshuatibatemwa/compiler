@@ -28,11 +28,14 @@ let string_of_token (t:token) : string =
   | EQ        -> "="
   | IN        -> "in"
   | FIX       -> "fix"
-  | FUN      -> "fun"
+  | FUN       -> "fun"
   | ASSIGN     -> "->"
   | INT_T      -> "int"
-  | BOOLEAN_T     -> "bool"
-  | COLON     -> ":"
+  | BOOLEAN_T   -> "bool"
+  | COLON       -> ":"
+  | COMMA       -> ","
+  | FIRST        -> "fst"
+  | SECOND       -> "snd"      
         
   | _     -> failwith ("unexpected token")
 

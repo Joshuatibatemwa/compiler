@@ -26,7 +26,9 @@ open Lang
 %token COLON
 %token BOOLEAN_T
 %token INT_T
-
+%token COMMA
+%token  FIRST
+%token  SECOND
 %token EOF
 
 
@@ -56,8 +58,11 @@ exp:
   |  e1=exp INEQ e2=exp                { EOp (EInequality, e1, e2) }
   |  e1=exp EQUAL e2=exp               { EOp (EEqual, e1, e2) }
   |  e1=exp MOD e2=exp                 { EOp (EModulus, e1, e2) }
-
-
+  | LPAREN e1=exp COMMA e2=exp RPAREN                                     { EPair (e1, e2) }
+  | FIRST e1=exp                                                            { EFst e1 }
+  | SECOND e1=exp                                                            { ESnd e1 }
+  | LPAREN RPAREN                                                         { EUnit}
+      
    typ_asn:
     | COLON t = typ_e             { t }
 
@@ -66,3 +71,6 @@ exp:
     | BOOLEAN_T                    { TBoolean }
     | LPAREN t = typ_e RPAREN    { t }
     | t1 = typ_e ASSIGN t2 = typ_e  { TFunc (t1, t2) }
+    | LPAREN t = typ_e RPAREN         { t }
+    | t1 = typ_e ASSIGN t2 = typ_e       { TFunc (t1, t2) }
+    | t1 = typ_e MULTIPLY t2 = typ_e    { TPair (t1, t2) }

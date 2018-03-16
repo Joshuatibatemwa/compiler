@@ -6,9 +6,11 @@ type typ_e =
   | TInt
   | TBoolean
   | TFunc of typ_e * typ_e
-  
+  | TUnit
+  | TPair of typ_e * typ_e
 
 type exp =
+| EUnit
 | EInt of int
 | EBoolean of bool
 | EVar of string
@@ -16,9 +18,11 @@ type exp =
 | EConditional of exp * exp * exp
 | ELet   of string * typ_e * exp * exp
 | EFunc  of string * typ_e * typ_e *  exp
-| EFix   of string * string * typ_e * typ_e * exp
-      
+| EFix   of string * string * typ_e * typ_e * exp    
 | EApp  of exp * exp
+| EPair of exp * exp
+| EFst of exp
+| ESnd of exp 
 
 let error err_msg =
   fprintf stderr "Error: %s\n" err_msg; exit 1
@@ -28,8 +32,9 @@ let rec string_of_typ (t:typ_e) : string =
    match t with
   | TInt   -> "int"
   | TBoolean  -> "bool"
+  | TUnit          -> "unit"     
   | TFunc (t1, t2) -> sprintf "(%s -> %s)" (string_of_typ t1) (string_of_typ t2)
-    
+  | TPair (t1, t2) -> sprintf "(%s * %s)" (string_of_typ t1) (string_of_typ t2) 
 
 let rec string_of_exp (e:exp) : string =
   match e with
@@ -42,7 +47,13 @@ let rec string_of_exp (e:exp) : string =
   | EFunc (x, t1, t2, e1)    -> sprintf "fun (%s:%s) : %s -> %s" x (string_of_typ t1) (string_of_typ t2) (string_of_exp e1)
   | EFix (f, x, t1, t2, e1)  -> sprintf "fix %s (%s:%s) : %s -> %s" f x (string_of_typ t1) (string_of_typ t2) (string_of_exp e1)
   | EApp (e1, e2)            -> sprintf "%s (%s)" (string_of_exp e1) (string_of_exp e2)
+  | EUnit                    -> "()"
+  | EPair (e1, e2)           -> sprintf "(%s, %s)" (string_of_exp e1) (string_of_exp e2)
+  | EFst e1                  -> sprintf "(fst %s)" (string_of_exp e1)
+  | ESnd e1                  -> sprintf "(snd %s)" (string_of_exp e1)
 
+
+        
 and string_of_op (o:op) (e1:exp) (e2:exp) : string =
 match o with
 | EAdd             -> sprintf "%s + %s" (string_of_exp e1) (string_of_exp e2)
@@ -58,6 +69,7 @@ module Context = Map.Make(String)
 
 let rec typecheck (g:typ_e Context.t) (e:exp) : typ_e =
   match e with
+  | EUnit       -> TUnit
   | EInt _      -> TInt
   | EBoolean _  -> TBoolean
   | EVar x   ->
@@ -127,6 +139,21 @@ let rec typecheck (g:typ_e Context.t) (e:exp) : typ_e =
       | _ ->  error (sprintf "Expected type function for %s in %s, got type %s"
                        (string_of_exp e1) (string_of_exp e) (string_of_typ t))
     end
+  |EPair (e1, e2) -> TPair (typecheck g e1, typecheck g e2)
+  | EFst e1 ->
+    let t = typecheck g e1 in
+    begin match t with
+      | TPair (t1, _) -> t1
+      | _ -> error (sprintf "Expected type a' * a' for %s in %s, got %s"
+                      (string_of_exp e1) (string_of_exp e) (string_of_typ t))
+    end
+  | ESnd e1 ->
+    let t = typecheck g e1 in
+    begin match t with
+      | TPair (_, t2) -> t2
+      | _ -> error (sprintf "Expected type a' * a' for %s in %s, got %s"
+                      (string_of_exp e1) (string_of_exp e) (string_of_typ t))
+    end
       
 
 let rec substitute (v:exp) (x:string) (e:exp) : exp =
@@ -139,7 +166,21 @@ let rec substitute (v:exp) (x:string) (e:exp) : exp =
   | EFunc (x', t1, t2,e') when x <> x'             -> EFunc (x', t1, t2,sub e')
   | EFix (f, x',t1, t2,e') when x <> x' && x <> f -> EFunc (x',t1,t2, sub e')
   | EVar x' when x = x'                     -> v
+  | EPair (e1, e2)                                  -> EPair (sub e1, sub e2)
+  | EFst e1                                         -> EFst (sub e1)
+  | ESnd e1                                         -> ESnd (sub e1)  
   | _ as e                                  -> e
+        
+
+
+ let rec is_value (e:exp) : bool =
+    match e with
+     | EInt _ | EBoolean _ | EUnit
+     | EFunc (_, _, _, _) | EFix (_, _, _, _, _) -> true
+     | EPair (e1, e2) -> is_value e1 && is_value e2
+     | _                                         -> false
+
+
 
 
 let rec interpret (e:exp) : exp =
@@ -148,7 +189,10 @@ let rec interpret (e:exp) : exp =
   | EConditional (e1, e2, e3) -> interpret_cond e1 e2 e3
   | ELet (x, t1 ,e1, e2) -> interpretLet x t1 e1 e2
   | EApp (e1, e2)    -> app_interpret e1 e2
-  | EVar x           -> error (sprintf "No value found for variable '%s'" x)      
+  | EVar x           -> error (sprintf "No value found for variable '%s'" x)
+  | EPair (e1, e2)      -> interpretPair e1 e2
+  | EFst e1             -> interpretFst e1
+  | ESnd e1             -> interpretSnd e1  
   | _ as e           -> e
 
   and interpret_cond (e1:exp) (e2:exp) (e3:exp) : exp =
@@ -186,13 +230,24 @@ let rec interpret (e:exp) : exp =
     | EDivision       -> EInt (v1 / v2)
     | EInequality            -> EBoolean (v1 <= v2)
     | EEqual          -> EBoolean (v1 = v2)
-
-let is_value (e:exp) : bool =
-  match e with
-   | EInt _ | EBoolean _
-   | EFunc (_, _,_,_)   ->true
-   | EFix (_, _, _,_,_) -> true
-   | _                             -> false
+  and interpretPair (e1:exp) (e2:exp) : exp =
+    if is_value e1 && is_value e2 then EPair (e1, e2)
+    else if (is_value e1 = false) && (is_value e2 = false) then EPair (interpret e1, interpret e2)
+    else if is_value e1 then EPair (e1, interpret e2)
+    else EPair (interpret e1, e2)
+  and interpretFst (e:exp) : exp =
+    if is_value e then
+      match e with
+      | EPair (e1, _) -> interpret e1
+      | _ -> error (sprintf "Expected a pair, got %s" (string_of_exp e))
+      else EFst (interpret e)
+  and interpretSnd (e:exp) : exp =
+    if is_value e then
+      match e with
+      | EPair (_, e2) -> interpret e2
+      | _ -> error (sprintf "Expected a pair, got %s" (string_of_exp e))
+    else ESnd (interpret e)
+         
 
 let rec step (e:exp) : exp =
   match e with
@@ -201,7 +256,11 @@ let rec step (e:exp) : exp =
   | ELet (x, t1, e1, e2) -> stepLet x t1 e1 e2
   | EApp (e1, e2)    -> stepApp e1 e2
   | EVar x           -> error (sprintf "Empty variable '%s'" x)
+  | EPair (e1, e2)      -> stepPair e1 e2
+  | EFst e1             -> stepFst e1
+  | ESnd e2             -> stepSnd e2    
   | _ as e           -> e
+        
    and stepOp (o:op) (e1:exp) (e2:exp) : exp =
      if is_value e1 && is_value e2 then interpretOp o e1 e2
      else if is_value e1 then EOp (o, e1, step e2)
@@ -222,6 +281,25 @@ let rec step (e:exp) : exp =
        | _ -> error (sprintf "Expected a function, got %s" (string_of_exp e1))
      else if is_value e1 then EApp (e1, step e2)
      else EApp (step e1, e2)
+ and stepPair (e1:exp) (e2:exp) : exp =
+     if is_value e1 && is_value e2 then EPair (e1, e2)
+      else if is_value e1 then EPair (e1, step e2)
+      else EPair (step e1, e2)
+  and stepFst (e:exp) : exp =
+    if is_value e then
+      match e with
+      | EPair (e1, _) -> step e1
+      | _ -> error (sprintf "Expected a pair, got %s" (string_of_exp e))
+      else EFst (step e)
+  and stepSnd (e:exp) : exp =
+  if is_value e then
+    match e with
+      | EPair (_, e2) -> step e2
+      | _ -> error (sprintf "Expected a pair, got %s" (string_of_exp e))
+      else EFst (step e)
+  
+
+         
 
 let rec step_interpret (e:exp) =
   if is_value e then
