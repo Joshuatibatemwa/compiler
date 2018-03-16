@@ -1,7 +1,7 @@
 ===== test1 =====
 6
 ===== test2 =====
-[(,let,max,=,(,fun,x,->,(,if,(,x,<=,5,),then,6,else,5,),),in,(,max,(,4,),),)]
+[let,max,=,fun,x,->,if,x,<=,5,then,6,else,5,in,max,(,4,)]
 ===== test3 =====
 let max = fun x -> if x <= 5 then 6 else 5 in max (4)
 ===== test4 =====
@@ -13,7 +13,7 @@ let max = fun x -> if x <= 5 then 6 else 5 in max (4)
 ===== test5 =====
 0
 ===== test6 =====
-[(,3,/,(,2,+,(,5,-,(,6,*,2,),),),)]
+[3,/,2,+,5,-,6,*,2]
 ===== test7 =====
 3 / 2 + 5 - 6 * 2
 ===== test8 =====
@@ -25,7 +25,7 @@ let max = fun x -> if x <= 5 then 6 else 5 in max (4)
 ===== test9 =====
 38
 ===== test10 =====
-[(,if,(,5,<=,3,),then,(,100,-,5,),else,(,33,+,5,),)]
+[if,5,<=,3,then,100,-,5,else,33,+,5]
 ===== test11 =====
 if 5 <= 3 then 100 - 5 else 33 + 5
 ===== test12 =====
@@ -35,7 +35,7 @@ if 5 <= 3 then 100 - 5 else 33 + 5
 ===== test13 =====
 1
 ===== test14 =====
-[(,if,(,3,<=,4,),then,(,if,true,then,1,else,2,),else,(,2,+,3,),)]
+[if,3,<=,4,then,if,true,then,1,else,2,else,2,+,3]
 ===== test15 =====
 if 3 <= 4 then if true then 1 else 2 else 2 + 3
 ===== test16 =====
@@ -45,7 +45,7 @@ if 3 <= 4 then if true then 1 else 2 else 2 + 3
 ===== test17 =====
 6
 ===== test18 =====
-[(,let,max,=,(,fun,x,->,(,if,(,x,<=,5,),then,6,else,5,),),in,(,max,(,4,),),)]
+[let,max,=,fun,x,->,if,x,<=,5,then,6,else,5,in,max,(,4,)]
 ===== test19 =====
 let max = fun x -> if x <= 5 then 6 else 5 in max (4)
 ===== test20 =====

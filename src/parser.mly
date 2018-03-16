@@ -38,20 +38,20 @@ prog:
   | e=exp EOF                           { e }
 
 exp:
-  | n=INT                                 { EInt n }
-  | b=BOOLEAN                             { EBoolean b}
+  | n=INT                               { EInt n }
+  | b=BOOLEAN                           { EBoolean b}
   | x=VAR                               { EVar x }
-  | LPAREN COND e1=exp THEN e2=exp ELSE e3=exp RPAREN {EConditional (e1,e2,e3)}
+  | COND e1=exp THEN e2=exp ELSE e3=exp{EConditional (e1,e2,e3)}
   | LPAREN e1=exp RPAREN                  {e1}
-  | LPAREN LET x=VAR EQ e1=exp IN e2=exp RPAREN  {ELet(x,e1,e2)}
-  | LPAREN FUN x=VAR  ASSIGN e1=exp RPAREN     {EFunc (x,e1)}
-  | LPAREN FIX  x=VAR v=VAR ASSIGN  e1=exp RPAREN {EFix (x,v,e1)}
-  | LPAREN   e1=exp LPAREN e2=exp RPAREN RPAREN   {EApp(e1,e2)}
-  | LPAREN e1=exp PLUS e2=exp RPAREN                { EOp (EAdd, e1, e2) }
-  | LPAREN e1=exp MINUS e2=exp    RPAREN            { EOp (ESubtract, e1, e2) }
-  | LPAREN  e1=exp MULTIPLY e2=exp  RPAREN          { EOp (EMultiplication, e1, e2) }
-  | LPAREN  e1=exp DIVIDE e2=exp    RPAREN          { EOp (EDivision, e1, e2) }
-  | LPAREN  e1=exp INEQ e2=exp       RPAREN         { EOp (EInequality, e1, e2) }
-  | LPAREN  e1=exp EQUAL e2=exp       RPAREN        { EOp (EEqual, e1, e2) }
-  | LPAREN  e1=exp MOD e2=exp       RPAREN          { EOp (EModulus, e1, e2) }
+  |  LET x=VAR EQ e1=exp IN e2=exp     {ELet(x,e1,e2)}
+  |  FUN x=VAR  ASSIGN e1=exp          {EFunc (x,e1)}
+  |  FIX  x=VAR v=VAR ASSIGN  e1=exp   {EFix (x,v,e1)}
+  |  e1=exp LPAREN e2=exp RPAREN       {EApp(e1,e2)}
+  |  e1=exp PLUS e2=exp                { EOp (EAdd, e1, e2) }
+  |  e1=exp MINUS e2=exp               { EOp (ESubtract, e1, e2) }
+  |  e1=exp MULTIPLY e2=exp            { EOp (EMultiplication, e1, e2) }
+  |  e1=exp DIVIDE e2=exp              { EOp (EDivision, e1, e2) }
+  |  e1=exp INEQ e2=exp                { EOp (EInequality, e1, e2) }
+  |  e1=exp EQUAL e2=exp               { EOp (EEqual, e1, e2) }
+  |  e1=exp MOD e2=exp                 { EOp (EModulus, e1, e2) }
 

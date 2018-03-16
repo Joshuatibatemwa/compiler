@@ -1,2 +1,2 @@
- (let max = (fun x -> (if (x <= 5) then 6 else 5)) in (max (4)))
+ let max = fun x -> if x <= 5 then 6 else 5 in max (4)
   

@@ -21,8 +21,8 @@ Compiler is an executable program that can be used to simplify arithmetic
 and logical expressions. The supported language syntax is defined as
 
 
-e ::= n |true | false |(e)| (e1 + e2) | (e1 - e2) | (e1 * e2) | (e1 / e2) |(e1 mod e2)|(e1 == e2)
-    | (e1 <= e2) | (if e1 then e2 else e3)|(fun x -> e)| (fix f x -> (e)) |(e1 (e2))
+e ::= n |true | false |(e)| e1 + e2 | e1 - e2 | e1 * e2 | e1 / e2 |e1 mod e2|e1 == e2
+    | e1 <= e2 | if e1 then e2 else e3|(un x -> e| fix f x -> (e) |e1 (e2)
 
 It supports the following flags:
 
