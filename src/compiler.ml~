@@ -19,18 +19,18 @@ let string_of_token (t:token) : string =
   | DIVIDE    -> "/"
   | INEQ       -> "<="
   | EQUAL     -> "=="
-  | COND -> "if"
+  | CONDITIONAL -> "if"
   | THEN      -> "then"
   | MOD       -> "mod"    
   | ELSE      -> "else"
-  | BOOLEAN b    -> string_of_bool b
+  | BOOL b    -> string_of_bool b
   | LET       -> "let"
   | EQ        -> "="
   | IN        -> "in"
   | FIX       -> "fix"
-  | FUN      -> "fun"
-  | ASSIGN     -> "->"
-  | _     -> failwith ("unexpected token")
+  | FUNC      -> "fun"
+  | ARROW     -> "->"
+  | _  as t       -> failwith ("unexpected token")
 
 let string_of_token_list (toks:token list) : string =
   String.concat "," (List.map string_of_token toks)

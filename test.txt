@@ -1,1 +1,2 @@
-(if (4 <= 5) then (6 mod 2) else (3+2)) 
+ (let max = (fun x -> (if (x <= 5) then 6 else 5)) in (max (4)))
+  

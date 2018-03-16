@@ -44,7 +44,7 @@ exp:
   | LPAREN COND e1=exp THEN e2=exp ELSE e3=exp RPAREN {EConditional (e1,e2,e3)}
   | LPAREN e1=exp RPAREN                  {e1}
   | LPAREN LET x=VAR EQ e1=exp IN e2=exp RPAREN  {ELet(x,e1,e2)}
-  | LPAREN FUN x=VAR  ASSIGN e1=exp RPAREN     {EFunc (x,e1)}
+  | LPAREN FUN x=VAR EQ ASSIGN e1=exp RPAREN     {EFunc (x,e1)}
   | LPAREN FIX  x=VAR v=VAR ASSIGN  e1=exp RPAREN {EFix (x,v,e1)}
   | LPAREN   e1=exp LPAREN e2=exp RPAREN RPAREN   {EApp(e1,e2)}
   | LPAREN e1=exp PLUS e2=exp RPAREN                { EOp (EAdd, e1, e2) }
@@ -54,4 +54,4 @@ exp:
   | LPAREN  e1=exp INEQ e2=exp       RPAREN         { EOp (EInequality, e1, e2) }
   | LPAREN  e1=exp EQUAL e2=exp       RPAREN        { EOp (EEqual, e1, e2) }
   | LPAREN  e1=exp MOD e2=exp       RPAREN          { EOp (EModulus, e1, e2) }
-
+  | LPAREN e1=exp RPAREN                           { e1 }

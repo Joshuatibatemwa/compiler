@@ -22,7 +22,7 @@ let symbols : (string * Parser.token) list =
   ; ("in", IN)
   ; ("fix", FIX)
   ; ("fun", FUN)
-  ; ("->", ASSIGN)
+  ; ("->", ARROW)
   ]
 
 let create_symbol lexbuf =
@@ -47,7 +47,7 @@ let var = alpha ['a'-'z' 'A'-'Z' '0'-'9' '_']*
 rule token = parse
   | eof                       { EOF }
   | digit+                    { INT (int_of_string (lexeme lexbuf)) }
-  | boolean                   { BOOLEAN (bool_of_string (lexeme lexbuf)) }
+  | boolean                   { BOOL (bool_of_string (lexeme lexbuf)) }
   | whitespace+ | newline+    { token lexbuf }
   | '('| ')'|'+'|'-'|'*'|'/'|"<="|"mod"|"=="|"if"|"then"|"else"|"let"|"="|"in"|"fix"|"fun"|"->"  { create_symbol lexbuf }
   | var                       { VAR (lexeme lexbuf) }

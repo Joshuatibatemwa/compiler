@@ -1,10 +1,22 @@
-TEST_RESULTS=$(make test)
-
-ERROR= $?
-
-if [[ $ERROR != 0 ]]; then
-  echo "Error: tests not passing"
-  echo "$TEST_RESULTS"
-  echo "$ERROR"
-  exit $ERROR;
+#!/bin/sh
+# Check if this is the initial commit
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+echo "pre-commit: About to create a new commit..."
+against=HEAD
+else
+echo "pre-commit: About to create the first commit..."
+against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
 fi
+
+echo "pre-commit: Testing for errors..."
+(make test)
+if [ $? -eq 0 ]
+then
+echo "pre-commit: No errors"
+exit 0
+else
+echo "pre-commit: Aborting commit due to errors"
+exit 1
+fi
+
