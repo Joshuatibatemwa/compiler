@@ -1,2 +1,8 @@
- let max = fun x -> if x <= 5 then 6 else 5 in max (4)
-  
+ let fact : int->int = 
+  fix f (n:int) : int ->
+    if n <= 0 then
+      1
+    else
+      n * f (n - 1)
+in 
+fact (5)
