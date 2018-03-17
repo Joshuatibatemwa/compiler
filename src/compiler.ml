@@ -17,13 +17,13 @@ let string_of_token (t:token) : string =
   | MINUS     -> "-"
   | MULTIPLY  -> "*"
   | DIVIDE    -> "/"
-  | INEQ       -> "<="
+  | INEQ      -> "<="
   | EQUAL     -> "=="
-  | COND -> "if"
+  | COND      -> "if"
   | THEN      -> "then"
   | MOD       -> "mod"    
   | ELSE      -> "else"
-  | BOOLEAN b    -> string_of_bool b
+  | BOOLEAN b  -> string_of_bool b
   | LET       -> "let"
   | EQ        -> "="
   | IN        -> "in"
@@ -36,7 +36,12 @@ let string_of_token (t:token) : string =
   | COMMA       -> ","
   | FIRST        -> "fst"
   | SECOND       -> "snd"      
-        
+  | REF       -> "ref"
+  | COLONEQ   -> ":="
+  | EXC       -> "!"
+  | SCOLON    -> ";"
+  | LARROW    -> "<"
+  | RARROW   ->  ">"
   | _     -> failwith ("unexpected token")
 
 let string_of_token_list (toks:token list) : string =
@@ -56,16 +61,17 @@ let start_up(f:string) =
           in lexing []
     else let ast = Parser.prog Lexer.token lexbuf in
       if !parse then
-        string_of_exp ast |> print_endline
+        string_of_exp Environ.empty ast |> print_endline
       else if !step then
         begin
-           typecheck Context.empty ast |> ignore;
+           type_check  ast |> ignore;
            step_interpret ast
          end       
       else
         begin
-           typecheck Context.empty ast |> ignore;
-           interpret ast |> string_of_exp |> print_endline
+          type_check ast |> ignore;
+       let state = interpret ast in
+        string_of_exp (fst state) (snd state) |> print_endline
          end
 
 let main () =

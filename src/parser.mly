@@ -29,6 +29,12 @@ open Lang
 %token COMMA
 %token  FIRST
 %token  SECOND
+%token  RARROW
+%token  LARROW
+%token  REF
+%token  COLONEQ
+%token  EXC
+%token  SCOLON
 %token EOF
 
 
@@ -62,6 +68,10 @@ exp:
   | FIRST e1=exp                                                            { EFst e1 }
   | SECOND e1=exp                                                            { ESnd e1 }
   | LPAREN RPAREN                                                         { EUnit}
+  | REF e1=exp                                                            { ERef e1 }
+  | e1=exp COLONEQ e2=exp                                                 { EAsn (e1, e2) }
+  | EXC e1=exp                                                            { EDeref e1 }
+  | e1=exp SCOLON e2=exp                                                  { EScol (e1, e2) }
       
    typ_asn:
     | COLON t = typ_e             { t }
@@ -74,3 +84,4 @@ exp:
     | LPAREN t = typ_e RPAREN         { t }
     | t1 = typ_e ASSIGN t2 = typ_e       { TFunc (t1, t2) }
     | t1 = typ_e MULTIPLY t2 = typ_e    { TPair (t1, t2) }
+    | LARROW t=typ_e RARROW              { TRef t }
