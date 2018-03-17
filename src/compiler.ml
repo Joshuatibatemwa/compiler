@@ -72,7 +72,7 @@ let start_up(f:string) =
          end       
       else
         begin
-          type_check ast |> ignore;
+          (*type_check ast |> ignore;*)
        let state = interpret ast in
         string_of_exp (fst state) (snd state) |> print_endline
          end

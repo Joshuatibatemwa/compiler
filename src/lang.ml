@@ -235,13 +235,12 @@ let rec substitute (g:exp Environ.t) (v:exp) (x:string) (e:exp) : exp =
         
 
 
- let rec is_value (e:exp) : bool =
-    match e with
-     | EInt _ | EBoolean _ | EUnit
-     | EFunc (_, _, _, _) ->   true
-     | EFix (_, _, _, _, _) -> true
-     | EPair (e1, e2) -> is_value e1 && is_value e2
-     | _                                         -> false
+let rec is_value (e:exp) : bool =
+  match e with
+  | EInt _ | EBoolean _ | EUnit
+  | EFunc (_, _, _, _) | EFix (_, _, _, _, _) |  Ptr _   -> true
+  | EPair (e1, e2) -> is_value e1 && is_value e2
+  | _                                           -> false
 
 let l_branch (s:exp Environ.t * exp) =
  match s with (g, _) -> g
@@ -261,7 +260,7 @@ and step (g:exp Environ.t) (e:exp) : (exp Environ.t * exp) =
      | EPair (e1, e2)          -> stepPair g e1 e2
      | EFst e1                 -> stepFst g e1
      | ESnd e2                 -> stepSnd g e2
-     | ERef e                  -> stepRef g e
+     | ERef e1                  -> stepRef g e1
      | EAsn (e1, e2)           -> stepAsn g e1 e2
      | EDeref e1               -> stepDeref g e1
      | EScol (e1, e2)          -> stepScol g e1 e2

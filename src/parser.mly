@@ -18,7 +18,15 @@
 %token WHILE DO END
 %token EOF
 
-
+%left IN ASSIGN
+%right SCOLON
+%left ELSE
+%left INEQ EQUAL
+%left PLUS MINUS
+%left MULTIPLY DIVIDE MOD
+%nonassoc LPAREN
+%nonassoc FIRST SECOND REF
+%nonassoc EXC
 %start <Lang.exp> prog
 
 %%
