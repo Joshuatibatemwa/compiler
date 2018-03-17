@@ -1,4 +1,8 @@
-
+/**
+* this is to ensure  that nested comments work
+ * /* inside of another comment */
+ * this should still not affect any of the operations below
+ */
 let x : <int> = ref 10 in
  let y:<int> = ref 5 in
  (y := !x / !y); !x * !y

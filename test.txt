@@ -1,7 +1,6 @@
 /**
- * this is a comment
- * /* inside of another comment */
- * but this is still a comment, not terminated by the preceding terminator
+ * this is a comment in its simplest form
+ * 
  */
 
 let sum_seq : int->int = 
