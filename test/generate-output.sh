@@ -46,3 +46,19 @@ echo "===== test23 ====="
 ./compiler.native -parse test/test5.txt
 echo "===== test24 ====="
 ./compiler.native -step test/test5.txt
+echo "===== test25 ====="
+./compiler.native  test/test6.txt
+echo "===== test26 ====="
+./compiler.native -lex test/test6.txt
+echo "===== test27 ====="
+./compiler.native -parse test/test6.txt
+echo "===== test28 ====="
+./compiler.native -step test/test6.txt
+echo "===== test29 ====="
+./compiler.native  test/test7.txt
+echo "===== test30 ====="
+./compiler.native -lex test/test7.txt
+echo "===== test31 ====="
+./compiler.native -parse test/test7.txt
+echo "===== test32 ====="
+./compiler.native -step test/test7.txt

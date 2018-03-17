@@ -1,8 +1,9 @@
 # A Simple OCaml Compiler
  by Joshua Ekirikubinza-Tibatemwa
+ Aided in creation by:Peter Michael Osera
 As simple OCaml compiler that translates OCaml code into machine language
 #i.e an executable program.  Currently supports simple arithmetic and
-#logical expressions
+#logical expressions with the infix format
 
 
 ## CLI
@@ -21,9 +22,11 @@ Compiler is an executable program that can be used to simplify arithmetic
 and logical expressions. The supported language syntax is defined as
 
 
-e ::= n |true | false |(e)| e1 + e2 | e1 - e2 | e1 * e2 | e1 / e2 |e1 mod e2
-     |e1 == e2| e1 <= e2 | if e1 then e2 else e3|(un x -> e| fix f x -> (e)
-     |e1 (e2) | (e1,e2)  |fst e | snd e
+e ::= n |true | false |(e)|()
+     | e1 + e2 | e1 - e2 | e1 * e2 | e1 / e2 |e1 mod e2
+     |e1 == e2| e1 <= e2 | if e1 then e2 else e3
+     |fun (x:typ1):typ2 -> e| fix f(x:typ1):typ2 -> e|e1 (e2)
+     | (e1, e2)  |fst e | snd e| while e1 do e2 end
 
 It supports the following flags:
 
@@ -144,6 +147,21 @@ types and type-checking
 The value unit  
 support for  pairs  
 
+ 
+ **Changed**  
+ *Lang.ml  
+ Language syntax  
+ *All tests
+ 
+ **Known Bugs**  
+ None  
+
+*Assignment 6*
+
+**Added**
+*Parser.mly, Lexer.mll, compiler.ml
+Reference cell support   
+While loop support
 
  
  **Changed**  
