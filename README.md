@@ -34,7 +34,10 @@ t ::= int | bool | t1 -> t2 | unit | t1 * t2 | <t>
 It supports the following flags:
 
 -lex -- processes the input source file through the lexing phase and prints the resulting stream of tokens to the console  
--parse -- processes the input source file through the parsing phase and prints the resulting abstract syntax tree  
+-parse -- processes the input source file through the parsing phase and
+-prints the resulting abstract syntax tree
+-repl implements A read eval print loop. Takes single user input,evaluates
+-them and reurns to the user. To quit one simply types quit into terminal
 -step -- processes the input and prints out every step of evaluation
 -help --  Display this list of options  
 --help -- Display this list of options  
