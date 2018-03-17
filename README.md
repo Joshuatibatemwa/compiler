@@ -177,3 +177,15 @@ While loop support
  
  **Known Bugs**  
  None  
+
+
+*Final Project*
+
+**Added**
+*Parser.mly, Lexer.mll, compiler.ml
+Added comments
+Added repl mode support
+
+ 
+ **Known Bugs**  
+ None  
