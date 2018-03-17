@@ -1,4 +1,10 @@
- let sum_seq : int->int = 
+/**
+ * this is a comment
+ * /* inside of another comment */
+ * but this is still a comment, not terminated by the preceding terminator
+ */
+
+let sum_seq : int->int = 
   fix f (n:int) : int ->
     if n <= 0 then
       0

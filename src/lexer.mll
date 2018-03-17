@@ -64,6 +64,17 @@ rule token = parse
   | digit+                    { INT (int_of_string (lexeme lexbuf)) }
   | boolean                   { BOOLEAN (bool_of_string (lexeme lexbuf)) }
   | whitespace+ | newline+    { token lexbuf }
+  |"/*"                       { comment 0 lexbuf}
   | '('| ')'|'+'|'-'|'*'|'/'|"<="|"mod"|"=="|"if"|"then"|"else"|"let"|"="|"in"|"fix"|"fun"|"->"|"int"|"bool"|':'|','|"fst"|"snd"|  "ref"|  ":=" |'!'|';' |'<'|'>'|"while"|"do"|"end"    { create_symbol lexbuf }
   | var                       { VAR (lexeme lexbuf) }
   | _ as c { raise @@ Lexer_error ("Unexpected character: " ^ Char.escaped c ^ (position lexbuf)) }
+  and comment n  = parse
+     | "*/" {
+       if n = 0 then token lexbuf
+       else comment (n-1) lexbuf
+     }
+     | "/*" {
+     comment (n+1) lexbuf
+     }
+     | _ { comment n lexbuf }
+     | eof { print_endline "Comments are not closed"; EOF }

@@ -12,7 +12,8 @@ type typ_e =
   | TFunc of typ_e * typ_e
   | TUnit
   | TPair of typ_e * typ_e
-  |  TRef of typ_e
+  | TRef of typ_e
+  | TEnd   
     
 type exp =
 | EUnit
@@ -34,6 +35,8 @@ type exp =
 | EScol of exp * exp
 | Ptr of int
 | EWhile of exp*exp
+| End
+
 
 let cur_address = ref 0    
 
@@ -48,7 +51,8 @@ let rec string_of_typ (t:typ_e) : string =
   | TUnit          -> "unit"     
   | TFunc (t1, t2) -> sprintf "(%s -> %s)" (string_of_typ t1) (string_of_typ t2)
   | TPair (t1, t2) -> sprintf "(%s * %s)" (string_of_typ t1) (string_of_typ t2) 
-  | TRef t         -> sprintf "<%s>" (string_of_typ t)
+  | TRef t         -> sprintf "<%s>" (string_of_typ t)                  
+  | TEnd           -> ""
         
 let rec string_of_exp g (e:exp) : string =
   match e with
@@ -71,6 +75,7 @@ let rec string_of_exp g (e:exp) : string =
   | EScol (e1, e2)           -> sprintf "(%s; %s)" (string_of_exp g e1) (string_of_exp g e2)
   | Ptr n                    -> sprintf "Ptr(%d):{%s}" n (string_of_exp g (Environ.find n g))
   | EWhile (e1, e2)          -> sprintf "(while %s do %s end)" (string_of_exp g e1) (string_of_exp g e2)
+  | End                      -> sprintf ""
 and string_of_op g (o:op) (e1:exp) (e2:exp) : string =
 match o with
 | EAdd             -> sprintf "%s + %s" (string_of_exp g e1) (string_of_exp g e2)
@@ -78,7 +83,7 @@ match o with
 | EMultiplication  -> sprintf "%s * %s" (string_of_exp g e1) (string_of_exp g e2)
 | EDivision        -> sprintf "%s / %s" (string_of_exp g e1) (string_of_exp g e2)
 | EInequality      -> sprintf "%s <= %s" (string_of_exp g e1) (string_of_exp g e2)
-|  EModulus        -> sprintf "%s mod  %s" (string_of_exp g e1) (string_of_exp g e2)
+| EModulus        -> sprintf "%s mod  %s" (string_of_exp g e1) (string_of_exp g e2)
 | EEqual           -> sprintf "%s == %s" (string_of_exp g e1) (string_of_exp g e2)
 
 
@@ -87,6 +92,7 @@ match o with
 let rec typecheck (g:typ_e Context.t) (e:exp) : typ_e =
   let string_of_exp e = string_of_exp Environ.empty e  in
   match e with
+  | End         -> TEnd 
   | EUnit       -> TUnit
   | EInt _      -> TInt
   | EBoolean _  -> TBoolean
@@ -237,7 +243,7 @@ let rec substitute (g:exp Environ.t) (v:exp) (x:string) (e:exp) : exp =
 
 let rec is_value (e:exp) : bool =
   match e with
-  | EInt _ | EBoolean _ | EUnit
+  | EInt _ | EBoolean _ | EUnit |End
   | EFunc (_, _, _, _) | EFix (_, _, _, _, _) |  Ptr _   -> true
   | EPair (e1, e2) -> is_value e1 && is_value e2
   | _                                           -> false

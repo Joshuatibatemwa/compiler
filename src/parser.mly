@@ -33,7 +33,8 @@
 
 
 prog:
-  | e=exp EOF                           { e }
+| e=exp EOF                           { e }
+| EOF                                 { End } 
 
 exp:
   | LPAREN RPAREN                                                         { EUnit}

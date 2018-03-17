@@ -21,12 +21,15 @@ themselves.
 Compiler is an executable program that can be used to simplify arithmetic
 and logical expressions. The supported language syntax is defined as
 
+e ::= n | b | e1 (+) e2 | if e1 then e2 else e3 | (e)
+    | x | let x : t = e1 in e2 | e1 e2
+    | fun (x:t1) : t2 -> e | fix f (x:t1) : t2 -> e
+    | () | (e1, e2) | fst e | snd e
+    | ref e | e1 := e2 | !e | e1 ; e2 | do e1 while e2 end
 
-e ::= n |true | false |(e)|()
-     | e1 + e2 | e1 - e2 | e1 * e2 | e1 / e2 |e1 mod e2
-     |e1 == e2| e1 <= e2 | if e1 then e2 else e3
-     |fun (x:typ1):typ2 -> e| fix f(x:typ1):typ2 -> e|e1 (e2)
-     | (e1, e2)  |fst e | snd e| while e1 do e2 end
+t ::= int | bool | t1 -> t2 | unit | t1 * t2 | <t>
+
+(+)::= +| - | / | * | mod
 
 It supports the following flags:
 
